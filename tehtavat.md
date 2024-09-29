@@ -219,7 +219,7 @@ select airport.name from airport where latitude_deg in (select min(latitude_deg)
 ![kuva](https://github.com/user-attachments/assets/754c622a-40c0-4482-9e6e-f474c04baea7)
 
 
-Osio 8 Päivityskyselyt harjoitukset
+**Osio 8 Päivityskyselyt harjoitukset**
 
 8.1:  Vesa lentää nykyiseltä sijainnilta Nottingham Airport:lle. Samalla Vesan hiilijalanjälki kasvaa 500:lla. Päivitä nämä tiedot tietokantaan.
 update game set location =(select ident from airport where airport.name = "Nottingham Airport"), co2_consumed = co2_consumed + 500 where screen_name = "Vesa";
