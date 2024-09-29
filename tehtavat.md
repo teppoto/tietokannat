@@ -1,5 +1,10 @@
 **Tietokantatehtävät**
 
+Osio 2 Relaatiotietokannan peruskäsitteiden harjoitukset
+
+![kuva](https://github.com/user-attachments/assets/37c5ec68-9428-4c0e-903d-5498b1222313)
+
+
 **Osio 3 Yhteen tauluun kohdistuvien kyselyiden harjoitukset**
 
 3.1: Tee kysely, joka tulostaa kaikki sarakkeet goal-talusta.
