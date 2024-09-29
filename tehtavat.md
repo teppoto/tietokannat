@@ -4,20 +4,24 @@
 
 3.1: Tee kysely, joka tulostaa kaikki sarakkeet goal-talusta.
 select*from goal;
+
 ![kuva](https://github.com/user-attachments/assets/687ed1a6-5e72-4e72-affb-65f914c26c14)
 
 3.2: Tee kysely, joka tulostaa nimen ja tyypin kaikista Suomessa sijaitsevista lentokentistä. Suomen maatunnus on: FI
 select name, type from airport where iso_country = "FI";
+
 ![kuva](https://github.com/user-attachments/assets/d16fbbfd-04c1-4179-a1de-ff8f5d5ea3b6)
 huom. kuva katkaistu, koska se olisi muuten liian iso.
 
 3.3: Tee kysely, joka tulostaa suomalaisten lentokenttien nimet aakkosjärjestyksessä. Suomen maatunnus: FI
 select name from airport where iso_country = "FI" order by name;
+
 ![kuva](https://github.com/user-attachments/assets/a013af8e-3305-4049-9cf0-ba98bef37586)
 huom. kuva katkaistu, koska se olisi muuten liian iso.
 
 3.4: Tee kysely, joka tulostaa nimen ja tyypin kaikista Suomessa sijaitsevista lentokentistä. Järjestä tulos ensisijaisesti tyypin mukaan ja toissijaisesti nimen mukaan.
 select name, type from airport where iso_country = "FI" order by type, name;
+
 ![kuva](https://github.com/user-attachments/assets/eb478f42-42f1-406b-b458-69087d7eac5e)
 huom. kuva katkaistu, koska se olisi muuten liian iso.
 
