@@ -227,6 +227,7 @@ update game set location =(select ident from airport where airport.name = "Notti
 ![kuva](https://github.com/user-attachments/assets/56438689-5e56-4ba7-816c-ee4a6615e762)
 
 8.2: 
+
 ![kuva](https://github.com/user-attachments/assets/4f4913c4-ef52-4106-84f2-4f1ad33b741b)
 
 8.3: Poista data goal_reached-taulusta
