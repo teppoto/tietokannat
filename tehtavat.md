@@ -110,6 +110,134 @@ select country.name from game, goal, goal_reached, airport, country where game.i
 **Osio 5 Join harjoitukset**
 
 5.1: Luettele suomalaiset lentokentät, joilla on aikataulutettuja palveluja. Lopputulokseen halutaan sekä maan nimi että lentokentän nimi.
+select country.name as "country name", airport.name as "airport name" from country inner join airport on airport.iso_country = country.iso_country where country.name = "Finland" and scheduled_service = "yes";
+
+![kuva](https://github.com/user-attachments/assets/6d6f5da1-052b-47fc-b914-b7c1ad34f131)
+
+5.2: Luettele pelaajanimet ja niiden lentokentrien nimet, joilla he ovat nyt.
+select screen_name, airport.name from game inner join airport on airport.ident = game.location;
+
+![kuva](https://github.com/user-attachments/assets/a68f7519-f44c-462a-a604-984755f5ba9d)
+
+5.3: Luettele pelaajanimet ja maat, joissa he ovat nyt.
+select screen_name, country.name from game inner join airport on airport.ident = game.location inner join country on country.iso_country = airport.iso_country;
+
+![kuva](https://github.com/user-attachments/assets/0f802e25-2cd5-4f02-bec0-d2bdc5b9d7eb)
+
+5.4: Luette kaikkien niiden lentokenttien nimet, jotka sisältävät merkkijonon "Hels" ja pelaajan nimi, jos joku pelaaja sattuu ko. kentällä olemaan.
+select airport.name, screen_name from airport left join game on ident = location where name like "%Hels%";
+
+![kuva](https://github.com/user-attachments/assets/7cfc42a2-5594-4ee9-aa59-f8b1a028844c)
+
+5.5: Luettele kaikki säätilatavoitteiden nimet ja pelaajan nimi, jos pelaaja on sen saavuttanut.
+select goal.name, screen_name from goal left join goal_reached on goal.id = goal_reached.goal_id left join game on game.id = goal_reached.game_id;
+
+![kuva](https://github.com/user-attachments/assets/4247f794-d284-464b-9a92-aa96d9693cb3)
+
+**Osio 6 Sisäkysely harjoitukset**
+
+6.1: Minkä nimisessä maassa sijaitsee sanalla ”Satsuma” alkava lentokenttä?
+select name from country where iso_country in (select iso_country from airport where name like "%Satsuma%");
+
+![kuva](https://github.com/user-attachments/assets/49a669cc-96e2-4fa7-95d7-7591912e09b2)
+
+6.2: Luettele Monacossa sijaitsevien lentokenttien nimet.
+select name from airport where iso_country in (select iso_country from country where name = "Monaco");
+
+![kuva](https://github.com/user-attachments/assets/cdda283e-ff36-4fba-a020-8069e584c652)
+
+6.3: Luettele nimimerkit, jotka ovat saavuttaneet säätilatavoitteen pilvistä (CLOUDS).
+select screen_name from game where game.id in(select game_id from goal_reached where goal_id in(select goal.id from goal where name = "CLOUDS"));
+
+![kuva](https://github.com/user-attachments/assets/702b5aee-113f-4fa2-adc2-cc8ec3a8f136)
+
+6.4: Luettele kaikki maat, joissa ei ole lentokenttää.
+select name from country where iso_country not in(select iso_country from airport);
+
+![kuva](https://github.com/user-attachments/assets/5d1a8a61-521e-402c-8454-19f5bc9a3fb5)
+
+6.5: Minkä nimiset säätilatavoitteet Heiniltä on saavuttamatta?
+select name from goal where id not in(select goal.id from goal, goal_reached, game where game.id = game_id and goal.id = goal_id and screen_name = "Heini");
+
+![kuva](https://github.com/user-attachments/assets/9c09a2ae-7476-4624-8dfa-4b1d384fa0dc)
+
+
+**Osio 7 Koostetieto kyselyt harjoitukset**
+
+7.1: Kuinka korkealla sijaitsee korkeimmalla sijaitseva lentokenttä?
+select max(elevation_ft) from airport;
+
+![kuva](https://github.com/user-attachments/assets/e9e8c383-d76e-45af-859f-be8457e1823c)
+
+7.2: Tee kysely, joka listaa kunkin maanosan, ja niissä sijaitsevien maiden määrän.
+select continent, count(*) from country group by continent;
+
+![kuva](https://github.com/user-attachments/assets/ee605686-d55a-4402-9f82-7ab075a9f068)
+
+7.3: Tulosta pelaajien nimimerkit ja pelaajien saavuttamien säätilatavoitteiden lukumäärät.
+select screen_name, count(*) from game inner join goal_reached on game.id = game_id inner join goal on goal_id = goal.id group by screen_name;
+
+![kuva](https://github.com/user-attachments/assets/d9db170c-0166-4bbc-9ab8-23423d5314c7)
+
+7.4: Mikä nimimerkki on kuluttanut vähiten hiilijalanjälkeä?
+select screen_name from game where co2_consumed in(select min(co2_consumed) from game);
+
+![kuva](https://github.com/user-attachments/assets/5b75baea-b427-4156-8bc5-47d214c912b8)
+
+7.5: Tulosta maan nimi ja lentokenttien lukumäärä kyseisessä maassa. Järjestä tulokset siten, että ylimpänä listassa ovat maat, joissa on eniten lentokenttiä. Ota mukaan vain 50 eniten lentokenttiä sisältävää maata.
+
+![kuva](https://github.com/user-attachments/assets/8ab758ae-91ea-41c0-8293-d13ac21e565c)
+
+7.6: Tulosta niiden maiden nimi, joissa on yli 1000 lentokenttää.
+select country.name from airport, country where airport.iso_country = country.iso_country group by country.iso_country having count(*) >= 1000;
+
+![kuva](https://github.com/user-attachments/assets/38d058de-db5b-4086-8149-a7edac6cd994)
+
+7.7: Minkä niminen on maailman korkeimmalla sijaitseva lentokenttä?
+select name from airport where elevation_ft in (select max(elevation_ft) from airport);
+
+![kuva](https://github.com/user-attachments/assets/a8ef4ef2-36fc-4614-a929-2c4e8fd97797)
+
+7.8.: Missä maassa sijaitsee maailman korkeimmalla oleva lentokenttä?
+select name from country where iso_country in (select iso_country from airport where elevation_ft in (select max(elevation_ft) from airport));
+
+![kuva](https://github.com/user-attachments/assets/72d26ff6-60dd-4a27-b13c-cee6b0fea778)
+
+7.9.: Kuinka monta säätilatavoitetta Vesa on saavuttanut?
+select count(*) from game, goal_reached where id = game_id and screen_name = "Vesa";
+
+![kuva](https://github.com/user-attachments/assets/b0858e57-2eb8-4082-92da-4de232266115)
+
+7.10: Mikä on lähimpänä napa-alueita olevan lentokentän nimi?
+select airport.name from airport where latitude_deg in (select min(latitude_deg) from airport);
+
+![kuva](https://github.com/user-attachments/assets/754c622a-40c0-4482-9e6e-f474c04baea7)
+
+
+Osio 8 Päivityskyselyt harjoitukset
+
+8.1:  Vesa lentää nykyiseltä sijainnilta Nottingham Airport:lle. Samalla Vesan hiilijalanjälki kasvaa 500:lla. Päivitä nämä tiedot tietokantaan.
+update game set location =(select ident from airport where airport.name = "Nottingham Airport"), co2_consumed = co2_consumed + 500 where screen_name = "Vesa";
+
+![kuva](https://github.com/user-attachments/assets/56438689-5e56-4ba7-816c-ee4a6615e762)
+
+8.2: ![kuva](https://github.com/user-attachments/assets/4f4913c4-ef52-4106-84f2-4f1ad33b741b)
+
+8.3: Poista data goal_reached-taulusta
+delete from goal_reached;
+
+![kuva](https://github.com/user-attachments/assets/75ad4489-cd6c-403a-8ca2-b48c68d0ee87)
+
+8.4: Poista data game-taulusta
+delete from game;
+
+![kuva](https://github.com/user-attachments/assets/c8bb15d1-2cbb-4c6e-9575-026a198fe7c8)
+
+
+**Osio Tietokannan suunnittelu harjoitukset**
+
+![kuva](https://github.com/user-attachments/assets/1ae78315-b209-495b-a8be-57e51705d2da)
+
 
 
 
